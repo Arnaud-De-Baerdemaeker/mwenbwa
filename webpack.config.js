@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/no-abusive-eslint-disable */
 /* becodeorg/mwenbwa
  *
  * /webpack.config.js - Webpack configuration

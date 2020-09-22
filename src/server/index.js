@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-console */
 /* becodeorg/mwenbwa
  *
  * /src/server/index.js - Server entry point
@@ -8,6 +10,8 @@
 
 import express from "express";
 import path from "path";
+
+import "./dbconnection";
 
 const {APP_PORT} = process.env;
 

@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+/* eslint-disable no-unused-vars */
 /* becodeorg/mwenbwa
  *
  * /src/client/app.js - Client entry point

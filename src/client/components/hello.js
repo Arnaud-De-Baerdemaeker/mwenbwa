@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* becodeorg/mwenbwa
  *
  * /src/client/components/hello.js - Hello Component
