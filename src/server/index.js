@@ -21,7 +21,7 @@ const mongoose = require('mongoose');
 import express from "express";
 const app = express();
 import * as dotenv from "dotenv";
-// const port = process.env.PORT || 5000;
+
 const {APP_PORT} = process.env;
 dotenv.config();
 console.log(process.env);
