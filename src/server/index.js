@@ -1,3 +1,4 @@
+/* eslint-disable no-sequences */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-undef */
 /* eslint-disable no-use-before-define */
@@ -22,6 +23,7 @@ import express from "express";
 const app = express();
 import * as dotenv from "dotenv";
 
+
 const {APP_PORT} = process.env;
 dotenv.config();
 console.log(process.env);
@@ -42,9 +44,9 @@ const connection = mongoose.connection;
 connection.once('open', () => {
     console.log("MongoDB database connection established succesfully");
 });
-// require("./routes/user.route")(app);
-// require("./routes/log.route")(app);
 
+const data = (data-trees).find({});
+console.log(data)
 app.get("/*", (req,res) => {
     res.sendFile(path.join(__dirname, "../client/index.html"), err => {
         if (err) {
@@ -60,6 +62,6 @@ app.get("/hello", (req, res) => {
 app.listen(APP_PORT, () =>
     console.log(`🚀 Server is listening on port ${APP_PORT}.`),
 );
-// uri();
 // addIdleLeaves();
 // removeIdleLeaves();
+
