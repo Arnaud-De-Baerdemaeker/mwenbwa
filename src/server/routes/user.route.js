@@ -1,20 +1,17 @@
-const router = require("express").Router();
-const User = require("../models/user.model");
+const controller = require("../control/user.control");
 
-router.route("/").get((req, res) => {
-    User.find()
-        .then(user => res.json(user))
-        .catch(err => res.status(400).json(`Error: ${err}`));
-});
+module.exports = function (app) {
+    app.use((req, res, next) => {
+        res.header(
+            "Access-Control-Allow-Headers",
+            "x-access-token, Origin, Content-Type, Accept",
+        );
+        next();
+    });
 
-router.route("/add").post((req, res) => {
-    const username = req.body.username;
-    const newUser = new User({username});
+    app.post("/api/deleteUserAndTrees", controller.deleteUserAndTrees);
 
-    newUser
-        .save()
-        .then(() => res.json("User added!"))
-        .catch(err => res.status(400).json(`Error: ${err}`));
-});
+    app.get("/api/allUsers", controller.allUsers);
 
-module.exports = router;
+    app.post("/api/getUser", controller.getUser);
+};

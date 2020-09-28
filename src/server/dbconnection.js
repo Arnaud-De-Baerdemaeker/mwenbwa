@@ -1,32 +1,17 @@
-/* eslint-disable no-use-before-define */
-/* eslint-disable no-undef */
-/* eslint-disable no-eval */
-/* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
+const mongoose = require("mongoose");
 
-// const {MongoClient} = require("mongodb");
-// async function main() {
-//     const uri =
-//         "mongodb+srv://admin:pedoncule@trees-db.6tbi9.mongodb.net/trees-db?retryWrites=true&w=majority";
-//     const client = new MongoClient(uri, {useUnifiedTopology: true});
+const ConnectionMongoDb = async () => {
+    try {
+        await mongoose.connect(process.env.ATLAS_URI, {
+            useUnifiedTopology: true,
+            useNewUrlParser: true,
+        });
+        console.log("Connected to DB !!");
+    } catch (e) {
+        console.log(e);
+        throw e;
+    }
+};
 
-//     try {
-//         // Connect to the MongoDB cluster
-//         await client.connect();
-
-//         // Make the appropriate DB calls
-//         await listDatabases(client);
-//     } catch (e) {
-//         console.error(e);
-//     } finally {
-//         await client.close();
-//     }
-// }
-// main().catch(console.error);
-
-// async function listDatabases(client) {
-//     databasesList = await client.db().admin().listDatabases();
-
-//     console.log("Databases:");
-//     databasesList.databases.forEach(db => console.log(` - ${db.name}`));
-// }
+module.exports = ConnectionMongoDb;

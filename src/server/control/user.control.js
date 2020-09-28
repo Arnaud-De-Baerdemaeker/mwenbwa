@@ -1,8 +1,7 @@
 /* eslint-disable no-console */
 const db = require("../models");
 const User = db.user;
-const datatrees = "db.data-trees";
-const Tree = datatrees;
+const Tree = "db.trees";
 
 exports.allUsers = (req, res) => {
     User.find({})
