@@ -1,0 +1,14 @@
+.submit // <div>
+{
+    .submit__button // <button>
+    {
+        padding: 10px 30px;
+        border-style: none;
+        border-width: 0;
+        background-color: #2e7d32;
+        color: rgb(255, 255, 255);
+        border-radius: 2px;
+        box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+        cursor: pointer;
+    }
+}
