@@ -1,0 +1,83 @@
+body {
+  margin: 0;
+}
+
+.modal {
+  width: 50vw;
+  margin: 0 auto 0 auto;
+  text-align: center;
+  -webkit-box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
+          box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
+}
+
+.modal .modal__title {
+  font-family: "Bubblegum Sans", cursive;
+  font-size: 2rem;
+  word-spacing: 1rem;
+  letter-spacing: 0.5rem;
+  margin: 0 0 40px 0;
+}
+
+.sign-in .sign-in__title, .sign-in .log-in__title, .log-in .sign-in__title, .log-in .log-in__title {
+  font-size: 1.5rem;
+  margin: 0 0 40px 0;
+}
+
+.sign-in .color, .log-in .color {
+  margin: 0 0 20px 0;
+}
+
+.sign-in .color .color__title, .log-in .color .color__title {
+  font-size: 1rem;
+  margin: 0 0 5px 0;
+  font-weight: normal;
+}
+
+.sign-in .color .color__container, .log-in .color .color__container {
+  display: -ms-grid;
+  display: grid;
+}
+
+.username {
+  margin: 0 0 20px 0;
+}
+
+.username .username__label {
+  display: block;
+  margin: 0 0 5px 0;
+}
+
+.email {
+  margin: 0 0 20px 0;
+}
+
+.email .email__label {
+  display: block;
+  margin: 0 0 5px 0;
+}
+
+.password {
+  margin: 0 0 20px 0;
+}
+
+.password .password__label {
+  display: block;
+  margin: 0 0 5px 0;
+}
+
+.circle-picker {
+  -ms-grid-column-align: center;
+      justify-self: center;
+}
+
+.submit .submit__button {
+  padding: 10px 30px;
+  border-style: none;
+  border-width: 0;
+  background-color: #2e7d32;
+  color: white;
+  border-radius: 2px;
+  -webkit-box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+          box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+}
