@@ -1,4 +1,5 @@
-const controller = require("../control/log.control");
+import controller from "../control/log.control";
+// const controller = require("../control/log.control");
 
 module.exports = function (app) {
     app.use((req, res, next) => {

@@ -11,9 +11,9 @@ import * as React from "react";
 
 const HelloWorld = () => (
     <div>
-        <h1>{"Hello, world!hahahaha"}</h1>
+        <h1>{"Hello, world!"}</h1>
         <hr />
-        <small>{"becode/trouvkach"}</small>
+        <small>{"Merde"}</small>
     </div>
 );
 

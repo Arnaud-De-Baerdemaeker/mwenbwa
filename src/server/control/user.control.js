@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
-const db = require("../models");
+import db from "../models/index";
+// const db = require("../models");
 const User = db.user;
 const Tree = "db.trees";
 
@@ -55,14 +56,6 @@ exports.getUser = (req, res) => {
 exports.addFirstLeaves = (req, res) => {
     User.find({}).exec((err, users) => {
         if (err) {
-            res.status(500).send({message: err});
-            return;
-        }
-
-        if (!users) {
-            res.status(404).send({
-                message: "Failed! User not found!",
-            });
             return;
         }
 

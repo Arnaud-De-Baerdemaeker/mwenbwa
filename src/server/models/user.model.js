@@ -1,13 +1,13 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const User = mongoose.model(
     "User",
     new mongoose.Schema({
-        username: String,
-        email: String,
-        password: String,
-        leaves: Number,
-        color: String,
+        username: {type: String},
+        email: {type: String},
+        password: {type: String},
+        leaves: {type: Number},
+        color: {type: String},
     }),
 );
 

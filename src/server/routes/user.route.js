@@ -1,4 +1,8 @@
-const controller = require("../control/user.control");
+import controller from "../control/user.control";
+// const controller = require("../control/user.control");
+import express from "express";
+
+const usersRoutes = express.Router();
 
 module.exports = function (app) {
     app.use((req, res, next) => {
@@ -9,9 +13,9 @@ module.exports = function (app) {
         next();
     });
 
-    app.post("/api/deleteUserAndTrees", controller.deleteUserAndTrees);
+    usersRoutes.post("/api/deleteUserAndTrees", controller.deleteUserAndTrees);
 
-    app.get("/api/allUsers", controller.allUsers);
+    usersRoutes.get("/api/allUsers", controller.allUsers);
 
-    app.post("/api/getUser", controller.getUser);
+    usersRoutes.post("/api/getUser", controller.getUser);
 };

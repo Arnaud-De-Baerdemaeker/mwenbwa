@@ -1,6 +1,8 @@
 /* eslint-disable no-undef */
-const {verifySignUp} = require("../middlewares");
-const controller = require("../control/auth.control");
+import verifySignUp from "../middlewares/verify-sign-up";
+import controller from "../control/auth.control";
+// const {verifySignUp} = require("../middlewares");
+// const controller = require("../control/auth.control");
 
 module.exports = function (app) {
     app.use((req, res, next) => {

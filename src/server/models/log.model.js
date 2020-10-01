@@ -1,12 +1,13 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
+// const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const logSchema = new Schema(
     {
-        playerId: String,
-        playerUsername: String,
-        playerEmail: String,
-        action: String,
+        playerId: {type: String},
+        playerUsername: {type: String},
+        playerEmail: {type: String},
+        action: {type: String},
         dateTime: {type: Date, default: Date.now},
     },
     {collection: "logs"},

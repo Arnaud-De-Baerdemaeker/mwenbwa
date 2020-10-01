@@ -1,11 +1,13 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-sync */
 const config = require("../auth.config");
-const db = require("../models");
+import db from "../models/index";
+// const db = require("../models");
 const User = db.user;
-
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcryptjs");
+import jwt from "jsonwebtoken";
+import bcrypt from "bcryptjs";
+// const jwt = require("jsonwebtoken");
+// const bcrypt = require("bcryptjs");
 
 import {addFirstLeaves} from "./user.control";
 import {addFirstTrees} from "./tree.control";

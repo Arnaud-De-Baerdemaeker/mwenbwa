@@ -1,9 +1,11 @@
 /* eslint-disable no-console */
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const ConnectionMongoDb = async () => {
     try {
         await mongoose.connect(process.env.ATLAS_URI, {
+            useCreateIndex: true,
+            authSource: "admin",
             useUnifiedTopology: true,
             useNewUrlParser: true,
         });

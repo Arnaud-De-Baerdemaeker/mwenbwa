@@ -1,17 +1,19 @@
-const control = require("../control/tree.control");
+import treeControl from "../control/tree.control";
+import express from "express";
 
-module.exports = function (app) {
-    app.get("/api/allTrees", control.allTrees);
+const routes = express.Router();
 
-    app.post("/api/buyTree", control.buyTree);
+routes.get("/api/allTrees", treeControl.allTrees);
 
-    app.post("/api/reBuyTree", control.reBuyTree);
+routes.post("/api/buyTree", treeControl.buyTree);
 
-    app.post("/api/lockTree", control.lockTree);
+routes.post("/api/reBuyTree", treeControl.reBuyTree);
 
-    app.post("/api/howManyTrees", control.howManyTrees);
+routes.post("/api/lockTree", treeControl.lockTree);
 
-    app.post("/api/addComment", control.addComment);
+routes.post("/api/howManyTrees", treeControl.howManyTrees);
 
-    app.post("/api/getValueTree", control.getValueTree);
-};
+routes.post("/api/addComment", treeControl.addComment);
+
+routes.post("/api/getValueTree", treeControl.getValueTree);
+module.exports = routes;

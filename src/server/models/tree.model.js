@@ -1,20 +1,20 @@
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
+import mongoose from "mongoose";
 
-const treesSchema = new Schema(
+const treesSchema = new mongoose.Schema(
     {
         name: {type: String, default: "For sale"},
-        leaves: Number,
-        sci_name: String,
+        leaves: {type: Number},
+        sci_name: {type: String},
         geoloc: {
-            lat: Number,
-            lon: Number,
+            lat: {type: Number},
+            lon: {type: Number},
         },
+        nom_complet: {type: String},
         owner: [{type: String, default: "For sale"}],
         comments: [
             {
-                name: String,
-                comment: String,
+                name: {type: String},
+                comment: {type: String},
             },
         ],
         lock: {type: Boolean, default: false},
@@ -22,4 +22,4 @@ const treesSchema = new Schema(
     {collection: "trees"},
 );
 
-module.exports = mongoose.model("Trees", treesSchema);
+module.exports = mongoose.model("trees", treesSchema);

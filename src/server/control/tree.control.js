@@ -1,29 +1,24 @@
+/* eslint-disable no-undef */
+/* eslint-disable no-console */
+/* eslint-disable no-unused-vars */
 /* eslint-disable unicorn/no-abusive-eslint-disable */
-const db = require("../models");
-const Tree = db.trees;
-const User = db.user;
 
-import {nameByRace} from "fantasy-name-generator";
+// import treeShema from "../models/tree.model";
+import Tree from "../models/tree.model";
+import User from "../models/user.model";
+
+// import {nameByRace} from "fantasy-name-generator";
 import {insideCircle} from "geolocation-utils";
-
-function randomName() {
-    return nameByRace("dragon", {gender: "male"});
-}
-
-exports.allTrees = (req, res) => {
-    Tree.find({}).exec((err, allTrees) => {
-        if (err) {
-            res.status(500).send({message: err});
-            return;
+module.exports = {
+    async allTrees(req, res) {
+        try {
+            const TreeList = await Tree.find();
+            res.send(TreeList);
+            // console.log(TreeList);
+        } catch (error) {
+            res.status(400).json({message: "Error !!"});
         }
-
-        if (!allTrees) {
-            res.status(404).send({message: "Trees Not found."});
-            return;
-        }
-
-        res.json(allTrees);
-    });
+    },
 };
 
 exports.addFirstTrees = (req, res) => {

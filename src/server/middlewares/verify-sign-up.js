@@ -1,4 +1,5 @@
-const db = require("../models");
+import db from "../models/index";
+// const db = require("../models");
 const User = db.user;
 
 const checkDuplicateUsernameOrEmailOrColor = (req, res, next) => {
