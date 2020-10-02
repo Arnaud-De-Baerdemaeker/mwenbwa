@@ -15,16 +15,19 @@
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const path = require('path');
-import mongoose from "mongoose";
+// import mongoose from "mongoose";
 import express from "express";
 import treesRoutes from "./routes/tree.route";
+import UserRoutes from "./routes/user.route";
+import authRoutes from "./routes/auth.route";
+import logRoutes from "./routes/log.route";
 import * as dotenv from "dotenv";
 import {addIdleLeaves, removeIdleLeaves} from "./control/user.control";
 import TreeShema from "./models/tree.model";
 
 const app = express();
-mongoose.set("useCreateIndex", true);
-mongoose.set("useFindAndModify", false);
+// mongoose.set("useCreateIndex", true);
+// mongoose.set("useFindAndModify", false);
 
 
 
@@ -75,8 +78,10 @@ TreeShema.find()
 //     console.log(`ℹ️  (${req.method.toUpperCase()}) ${req.url}`);
 //     res.send("Hello, World!");
 // });
-
 app.use(treesRoutes);
+app.use(UserRoutes);
+app.use(authRoutes);
+app.use(logRoutes);
 app.listen(APP_PORT, () =>
     console.log(`🚀 Server is listening on port ${APP_PORT}.`),
 );

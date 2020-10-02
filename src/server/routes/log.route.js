@@ -1,16 +1,17 @@
 import controller from "../control/log.control";
 // const controller = require("../control/log.control");
+import express from "express";
 
-module.exports = function (app) {
-    app.use((req, res, next) => {
-        res.header(
-            "Access-Control-Allow-Headers",
-            "x-access-token, Origin, Content-Type, Accept",
-        );
-        next();
-    });
+const logRoutes = express.Router();
 
-    app.get("/api/getLogs", controller.getLogs);
+module.exports = logRoutes.use((req, res, next) => {
+    res.header(
+        "Access-Control-Allow-Headers",
+        "x-access-token, Origin, Content-Type, Accept",
+    );
+    next();
+});
 
-    app.post("/api/postLog", controller.postLog);
-};
+logRoutes.get("/api/getLogs", controller.getLogs);
+
+logRoutes.post("/api/postLog", controller.postLog);

@@ -9,6 +9,7 @@ import User from "../models/user.model";
 
 // import {nameByRace} from "fantasy-name-generator";
 import {insideCircle} from "geolocation-utils";
+
 module.exports = {
     async allTrees(req, res) {
         try {
@@ -21,35 +22,39 @@ module.exports = {
     },
 };
 
-exports.addFirstTrees = (req, res) => {
-    Tree.find({name: "For sale"})
-        .count()
-        .exec((err, count) => {
-            if (err) {
-                res.status(500).send({message: err});
-                return;
-            }
+exports.addFirstTrees = async (req, res) => {
+    try {
+        await Tree.find({name: "For sale"})
+            .count()
+            .exec((err, count) => {
+                if (err) {
+                    res.status(500).send({message: err});
+                    return;
+                }
 
-            const random = Math.floor(Math.random() * count);
+                const random = Math.floor(Math.random() * count);
 
-            Tree.findOne({})
-                .skip(random)
-                .exec((error, tree) => {
-                    if (error) {
-                        res.status(500).send({message: error});
-                        return;
-                    }
-
-                    tree.name = randomName();
-                    tree.owner = req.username;
-
-                    tree.save(erro => {
-                        if (erro) {
-                            res.status(500).send({message: erro});
+                Tree.findOne({})
+                    .skip(random)
+                    .exec((error, tree) => {
+                        if (error) {
+                            res.status(500).send({message: error});
+                            return;
                         }
+
+                        tree.name = randomName();
+                        tree.owner = req.username;
+
+                        tree.save(erro => {
+                            if (erro) {
+                                res.status(500).send({message: erro});
+                            }
+                        });
                     });
-                });
-        });
+            });
+    } catch (error) {
+        res.status(400).json({message: "Error !!"});
+    }
 };
 
 exports.buyTree = (req, res) => {
