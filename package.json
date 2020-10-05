@@ -1,0 +1,74 @@
+{
+  "name": "@becode/mwenbwa",
+  "version": "0.0.1",
+  "description": "A web-based game of conquests… and trees",
+  "author": "leny <leny@becode.org>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "lint": "npx eslint --fix --cache --ignore-pattern 'docs/*' src",
+    "build:server": "npx babel src/server -s --out-dir bin/server",
+    "work:server": "npx babel src/server -s --watch --verbose --out-dir bin/server",
+    "build:client": "npx webpack --progress --profile --colors",
+    "work:client": "npx webpack --env=dev --progress",
+    "build": "npm run build:server && npm run build:client"
+  },
+  "lint-staged": {
+    "*.js": [
+      "npx eslint --fix --cache"
+    ]
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.11.6",
+    "@babel/core": "^7.11.6",
+    "@babel/plugin-proposal-class-properties": "^7.10.4",
+    "@babel/plugin-proposal-decorators": "^7.10.5",
+    "@babel/plugin-proposal-object-rest-spread": "^7.11.0",
+    "@babel/polyfill": "^7.11.5",
+    "@babel/preset-env": "^7.11.5",
+    "@babel/preset-react": "^7.10.4",
+    "@becode/eslint-config": "^0.9.1",
+    "babel-eslint": "^10.1.0",
+    "babel-loader": "^8.1.0",
+    "css": "^3.0.0",
+    "css-loader": "^4.3.0",
+    "eslint": "^7.10.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-react": "^7.21.2",
+    "eslint-plugin-unicorn": "^20.1.0",
+    "file-loader": "^6.1.0",
+    "html-webpack-plugin": "^4.5.0",
+    "husky": "^4.3.0",
+    "lint-staged": "^10.4.0",
+    "node-sass": "^4.14.1",
+    "prettier": "^2.1.2",
+    "sass": "^1.26.11",
+    "sass-loader": "^10.0.2",
+    "style-loader": "^1.2.1",
+    "uglifyjs-webpack-plugin": "^2.2.0",
+    "webpack": "^4.44.2",
+    "webpack-cli": "^3.3.12"
+  },
+  "dependencies": {
+    "axios": "^0.20.0",
+    "bcryptjs": "^2.4.3",
+    "bulma": "^0.9.1",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "file-system": "^2.2.2",
+    "geolocation-utils": "^1.2.3",
+    "jsonwebtoken": "^8.5.1",
+    "mongodb": "^3.6.2",
+    "mongoose": "^5.10.7",
+    "react": "^16.13.1",
+    "react-color": "^2.18.1",
+    "react-color-hook": "^1.0.5",
+    "react-dom": "^16.13.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npx lint-staged"
+    }
+  }
+}
