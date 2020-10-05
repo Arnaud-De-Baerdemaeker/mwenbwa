@@ -2,10 +2,12 @@
 // src/client/components/password.js - Password component
 // coded by arnaud-de-baerdemaeker-jepsen-3.20@becode
 
-import React, {useState} from "react";
+import React from "react";
 
-const Password = () => {
-    const [password, setPassword] = useState("");
+const Password = props => {
+    function handleChange(e) {
+        props.setNewUser({...props.newUser, password: e.target.value});
+    }
 
     return (
         <div className={"password"}>
@@ -16,8 +18,8 @@ const Password = () => {
                 type={"password"}
                 name={"password"}
                 minLength={8}
-                value={password}
-                onChange={e => setPassword(e.target.value)}
+                // value={props.newUser.password}
+                onChange={handleChange}
                 required
             />
         </div>
