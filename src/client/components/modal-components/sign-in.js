@@ -2,12 +2,13 @@
  *
  * /src/client/components/sign-in.js - Sign In Component
  *
- * coded by arnaud-de-baerdemaeker-jepsen-3.20@BeCode
+ * coded by Arnaud De Baerdemaeker, Jepsen 3.20, BeCode
+ *
  * started at 09/2020
  */
 
 import React, {useState} from "react";
-import {CirclePicker} from "react-color";
+import {CirclePicker} from "react-color-hook";
 // import bcryptjs from "bcryptjs";
 import Username from "./username";
 import Email from "./email";
@@ -15,11 +16,16 @@ import Password from "./password";
 import Submit from "./submit";
 
 const SignIn = () => {
-    const [, /*color*/ setColor] = useState("");
+    const [newUser, setNewUser] = useState({
+        username: "",
+        email: "",
+        password: "",
+        color: "",
+    });
 
-    const changeSpy = props => {
-        setColor(props.hex);
-    };
+    function handleChange(e) {
+        setNewUser({...newUser, color: e.hex});
+    }
 
     const submit = event => {
         event.preventDefault();
@@ -30,13 +36,13 @@ const SignIn = () => {
     return (
         <form onSubmit={submit} className={"sign-in"}>
             <h2 className={"sign-in__title"}>{"Create an account"}</h2>
-            <Username />
-            <Email />
-            <Password />
+            <Username newUser={newUser} setNewUser={setNewUser} />
+            <Email newUser={newUser} setNewUser={setNewUser} />
+            <Password newUser={newUser} setNewUser={setNewUser} />
             <div className={"color"}>
                 <h3 className={"color__title"}>{"Pick a color"}</h3>
                 <div className={"color__container"}>
-                    <CirclePicker onChange={changeSpy} />
+                    <CirclePicker onChange={handleChange} />
                 </div>
             </div>
             <Submit />
