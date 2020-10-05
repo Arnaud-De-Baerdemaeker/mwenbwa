@@ -2,10 +2,12 @@
 // src/client/components/email.js - Email component
 // coded by arnaud-de-baerdemaeker-jepsen-3.20@becode
 
-import React, {useState} from "react";
+import React from "react";
 
-const Email = () => {
-    const [email, setEmail] = useState("");
+const Email = props => {
+    function handleChange(e) {
+        props.setNewUser({...props.newUser, email: e.target.value});
+    }
 
     return (
         <div className={"email"}>
@@ -15,8 +17,8 @@ const Email = () => {
             <input
                 type={"email"}
                 name={"E-mail"}
-                value={email}
-                onChange={e => setEmail(e.target.value)}
+                // value={props.newUser.email}
+                onChange={handleChange}
                 required
             />
         </div>
