@@ -7,8 +7,12 @@
 import Tree from "../models/tree.model";
 import User from "../models/user.model";
 
-// import {nameByRace} from "fantasy-name-generator";
+import {nameByRace} from "fantasy-name-generator";
 import {insideCircle} from "geolocation-utils";
+
+function randomName() {
+    return nameByRace("dragon", {gender: "male"});
+}
 
 module.exports = {
     async allTrees(req, res) {

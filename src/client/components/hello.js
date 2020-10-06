@@ -8,10 +8,9 @@
  */
 
 import * as React from "react";
-
 const HelloWorld = () => (
     <div>
-        <h1>{"Hello, world!"}</h1>
+        <h1>{"Fais chier"}</h1>
         <hr />
         <small>{"Merde"}</small>
     </div>

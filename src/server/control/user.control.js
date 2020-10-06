@@ -2,7 +2,7 @@
 import db from "../models/index";
 // const db = require("../models");
 const User = db.user;
-const Tree = "db.trees";
+const Tree = db.trees;
 
 exports.allUsers = (req, res) => {
     User.find({})

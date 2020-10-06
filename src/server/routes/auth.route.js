@@ -21,6 +21,6 @@ authRoutes.post(
     controller.signup,
 );
 
-authRoutes.post("/api/auth/signin", controller.signin);
+// authRoutes.post("/api/auth/signin", controller.signin);
 
-authRoutes.post("/api/auth/resetPassword", controller.resetPassword);
+// authRoutes.post("/api/auth/resetPassword", controller.resetPassword);

@@ -2,42 +2,41 @@
 /* eslint-disable no-sync */
 const config = require("../auth.config");
 import db from "../models/index";
-// const db = require("../models");
 const User = db.user;
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
-// const jwt = require("jsonwebtoken");
-// const bcrypt = require("bcryptjs");
-
+const app = require("express");
 import {addFirstLeaves} from "./user.control";
 import {addFirstTrees} from "./tree.control";
 
-exports.signup = (req, res) => {
-    const user = new User({
-        username: req.body.username,
-        email: req.body.email,
-        password: bcrypt.hashSync(req.body.password, 8),
-        color: req.body.color,
-        leaves: 0,
-    });
+module.exports = {
+    async signup(req, res) {
+        const user = await new User({
+            username: req.body.username,
+            email: req.body.email,
+            password: bcrypt.hashSync(req.body.password, 8),
+            color: req.body.color,
+            leaves: 0,
+        });
+        user.save((err, resp) => {
+            if (err) {
+                res.status(500).send({message: err});
+                return;
+            }
 
-    user.save((err, resp) => {
-        if (err) {
-            res.status(500).send({message: err});
-            return;
-        }
+            addFirstLeaves(resp);
+            addFirstTrees(resp);
+            addFirstTrees(resp);
+            addFirstTrees(resp);
 
-        addFirstLeaves(resp);
-        addFirstTrees(resp);
-        addFirstTrees(resp);
-        addFirstTrees(resp);
-
-        res.send({message: "User was registered successfully!"});
-    });
+            app.post("/api/auth/signin", signin);
+            res.send({message: "User was registered successfully!"});
+        });
+    },
 };
 
-exports.signin = (req, res) => {
-    User.findOne({
+exports.signin = async (req, res) => {
+    await User.findOne({
         email: req.body.email,
     }).exec((err, user) => {
         if (err) {
