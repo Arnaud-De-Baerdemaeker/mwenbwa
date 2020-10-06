@@ -15,7 +15,7 @@ class Layout extends Component {
 
                 <main>
                     <Route path="/" exact component={Mab} />
-                    <Route path="/sign-up" render={() => "signup"} />
+                    <Route path="/sign-up" render={() => <div>Hello</div>} />
                     <Route path="/login" render={() => "login"} />
                 </main>
             </div>

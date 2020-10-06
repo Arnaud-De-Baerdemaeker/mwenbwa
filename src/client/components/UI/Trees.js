@@ -1,18 +1,24 @@
 import React from "react";
 import {Marker, Popup} from "react-leaflet";
+import MarkerClusterGroup from "react-leaflet-markercluster";
+import uuid from "react-uuid";
 
 const Trees = (props) => {
-    let allArbers = props.trees.map((tree) => {
+    let trees = props.trees.map((tree) => {
         return (
-            <Marker
-                key={tree.arbotag}
-                position={[tree.geoloc.lat, tree.geoloc.lon]}>
-                <Popup>{tree.nom_complet}</Popup>
+            <Marker key={uuid()} position={[tree.geoloc.lat, tree.geoloc.lon]}>
+                <Popup>
+                    <p>
+                        {Math.floor(tree.hauteur_totale * tree.diametre_cime)}
+                    </p>
+
+                    {tree.nom_complet}
+                </Popup>
             </Marker>
         );
     });
 
-    return <div>{allArbers}</div>;
+    return <div>{<MarkerClusterGroup>{trees}</MarkerClusterGroup>}</div>;
 };
 
 export default Trees;

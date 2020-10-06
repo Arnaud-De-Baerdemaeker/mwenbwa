@@ -18,7 +18,7 @@ class SimpleExample extends Component {
             .then((response) => response.text())
             .then((data) => {
                 this.setState({
-                    trees: JSON.parse(data).slice(0, 100),
+                    trees: JSON.parse(data).slice(0, 2000),
                 });
             });
     }
@@ -27,6 +27,7 @@ class SimpleExample extends Component {
         const position = [this.state.lat, this.state.lng];
         return (
             <Map
+                className="markercluster-map"
                 style={{height: "500px"}}
                 center={position}
                 zoom={this.state.zoom}>
