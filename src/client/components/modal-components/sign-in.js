@@ -8,8 +8,8 @@
  */
 
 import React, {useState} from "react";
-import {CirclePicker} from "react-color-hook";
-// import bcryptjs from "bcryptjs";
+import {SliderPicker} from "react-color-hook";
+// import axios from "axios";
 import Username from "./username";
 import Email from "./email";
 import Password from "./password";
@@ -27,14 +27,20 @@ const SignIn = () => {
         setNewUser({...newUser, color: e.hex});
     }
 
-    const submit = event => {
-        event.preventDefault();
-
-        // bcryptjs.hash(Password.password, 10).then(result => {})
-    };
+    // function handleSubmit(e) {
+    //     e.preventDefault();
+    //     axios
+    //         .post("/api/auth/signup", newUser)
+    //         .then(res => {
+    //             console.log(res);
+    //         })
+    //         .catch(error => {
+    //             console.log(error);
+    //         });
+    // }
 
     return (
-        <form onSubmit={submit} className={"sign-in"}>
+        <form method={"post"} className={"sign-in"}>
             <h2 className={"sign-in__title"}>{"Create an account"}</h2>
             <Username newUser={newUser} setNewUser={setNewUser} />
             <Email newUser={newUser} setNewUser={setNewUser} />
@@ -42,10 +48,10 @@ const SignIn = () => {
             <div className={"color"}>
                 <h3 className={"color__title"}>{"Pick a color"}</h3>
                 <div className={"color__container"}>
-                    <CirclePicker onChange={handleChange} />
+                    <SliderPicker onChange={handleChange} />
                 </div>
             </div>
-            <Submit />
+            <Submit /*onSubmit={handleSubmit}*/ />
         </form>
     );
 };
