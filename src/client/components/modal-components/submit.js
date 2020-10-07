@@ -4,10 +4,13 @@
 
 import React from "react";
 
-const Submit = () => (
+const Submit = props => (
     <div className={"submit"}>
         {/*eslint-disable-next-line react/button-has-type*/}
-        <button type={"submit"} className={"submit__button"}>
+        <button
+            type={"submit"}
+            onSubmit={props.onSubmit}
+            className={"submit__button"}>
             {"Submit"}
         </button>
     </div>
