@@ -1,168 +1,67 @@
 /* eslint-disable no-console */
-import db from "../models/index";
-// const db = require("../models");
+import db from "../models/";
+import bcrypt from "bcryptjs";
 const User = db.user;
-const Tree = db.trees;
+// const Tree = db.trees;
 
-exports.allUsers = (req, res) => {
-    User.find({})
-        .sort([["leaves", -1]])
-        .exec((err, allUsers) => {
-            if (err) {
-                res.status(500).send({message: err});
-                return;
-            }
+// module.exports = {
+//     async allUsers(req, res) {
+//         try {
+//             await User.find()
+//                 .sort([["leaves", -1]])
+//                 .exec((err, allUsers) => {
+//                     if (err) {
+//                         res.status(500).send({message: err});
+//                         return;
+//                     }
 
-            if (!allUsers) {
-                res.status(404).send({message: "Users Not found."});
-                return;
-            }
+//                     if (!allUsers) {
+//                         res.status(404).send({message: "Users Not found."});
+//                         return;
+//                     }
 
-            res.json(allUsers);
-        });
-};
+//                     res.json(allUsers);
+//                 });
+//         } catch (error) {
+//             res.status(400).json({message: "Error !!"});
+//         }
+//     },
+// };
 
-exports.deleteUserAndTrees = req => {
-    const user = req.body.username;
-    Tree.find({owner: [user]}).then(resu => {
-        for (const element of resu) {
-            element.owner = [];
-            element.name = "For sale";
-            element.lock = false;
-            element.save();
-        }
-        User.deleteOne({username: user}).then(res => {
-            console.log(res);
-        });
-    });
-};
-
-exports.getUser = (req, res) => {
-    User.findById(req.body.id).exec((err, user) => {
-        if (err) {
-            res.status(500).send({message: err});
-            return;
-        }
-
-        if (!user) {
-            res.status(404).send({message: "User Not found."});
-            return;
-        }
-
-        res.json(user);
-    });
-};
-
-exports.addFirstLeaves = (req, res) => {
-    User.find({}).exec((err, users) => {
-        if (err) {
-            return;
-        }
-
-        let totUsersLeaves = 0;
-        let usersLenght = -1;
-
-        users.forEach(user => {
-            totUsersLeaves += user.leaves;
-            usersLenght += 1;
-        });
-
-        const usersLeaves = totUsersLeaves / usersLenght;
-
-        User.findByIdAndUpdate(req._id, {leaves: usersLeaves}).exec(error => {
-            if (error) {
-                res.status(500).send({message: error});
-            }
-        });
-    });
-};
-
-exports.addIdleLeaves = (req, res) => {
-    function repeatAdd() {
-        User.find({}).exec((err, users) => {
-            if (err) {
-                res.status(500).send({message: err});
-                return;
-            }
-
-            if (!users) {
-                res.status(404).send({
-                    message: "Failed! User not found!",
+module.exports = {
+    async registeraccount(req, res) {
+        try {
+            const {name, email, password, color, leaves} = req.body;
+            const userExist = await User.findOne({name});
+            const emailExist = await User.findOne({email});
+            const colorExist = await User.findOne({color});
+            if (emailExist) {
+                return res.status(400).json({
+                    message:
+                        "Email already in use ! Maybe you want to connect ?",
                 });
-                return;
+            } else if (userExist) {
+                return res
+                    .status(400)
+                    .json({message: "Username already taken !"});
+            } else if (colorExist) {
+                return res
+                    .status(400)
+                    .json({message: "This color is already in use !"});
             }
-
-            users.forEach(user => {
-                Tree.find({owner: user.username}).exec((error, allTrees) => {
-                    if (error) {
-                        console.error(error);
-                    }
-
-                    let totalLeavesTrees = 0;
-                    const leavesUser = user.leaves;
-                    let newLeavesUser = 0;
-
-                    allTrees.forEach(tree => {
-                        totalLeavesTrees += tree.leaves;
-                    });
-
-                    newLeavesUser = Math.floor(leavesUser + totalLeavesTrees);
-                    user.leaves = newLeavesUser;
-
-                    user.save(erro => {
-                        if (erro) {
-                            res.status(500).send({message: erro});
-                        }
-                    });
-
-                    console.log(
-                        `Add ${totalLeavesTrees} Leaves to ${user.username} total: ${user.leaves}`,
-                    );
-                });
+            const hashedPassword = await bcrypt.hash(password, 8);
+            await User.create({
+                name,
+                email,
+                password: hashedPassword,
+                color,
+                leaves,
             });
-        });
-        setTimeout(repeatAdd, 900000);
-    }
-    repeatAdd();
-};
-
-exports.removeIdleLeaves = (req, res) => {
-    function repeatRemove() {
-        User.find({}).exec((err, users) => {
-            if (err) {
-                res.status(500).send({message: err});
-                return;
-            }
-
-            if (!users) {
-                res.status(404).send({
-                    message: "Failed! User not found!",
-                });
-                return;
-            }
-
-            users.forEach(user => {
-                const leavesUser = user.leaves;
-                let newLeavesUser = 0;
-
-                newLeavesUser = Math.floor(leavesUser / 2);
-
-                user.leaves = newLeavesUser;
-
-                user.save(error => {
-                    if (error) {
-                        res.status(500).send({message: error});
-                    }
-                });
-
-                console.log(
-                    `Remove ${Math.floor(leavesUser / 2)} Leaves to ${
-                        user.username
-                    } total: ${user.leaves}`,
-                );
-            });
-        });
-        setTimeout(repeatRemove, 3600000);
-    }
-    repeatRemove();
+            return res.status(200).json({message: `User has been created !`});
+        } catch (error) {
+            return res
+                .status(400)
+                .json({message: `Impossible to create account ${error}`});
+        }
+    },
 };

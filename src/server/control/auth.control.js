@@ -1,20 +1,15 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-sync */
-const config = require("../auth.config");
+
 import db from "../models/index";
 const User = db.user;
-import jwt from "jsonwebtoken";
-import bcrypt from "bcryptjs";
-const app = require("express");
-import {addFirstLeaves} from "./user.control";
-import {addFirstTrees} from "./tree.control";
 
 module.exports = {
-    async signup(req, res) {
-        const user = await new User({
+    signup(req, res) {
+        const user = new User({
             username: req.body.username,
             email: req.body.email,
-            password: bcrypt.hashSync(req.body.password, 8),
+            password: (req.body.password, 8),
             color: req.body.color,
             leaves: 0,
         });
@@ -35,8 +30,8 @@ module.exports = {
     },
 };
 
-exports.signin = async (req, res) => {
-    await User.findOne({
+exports.signin = (req, res) => {
+    User.findOne({
         email: req.body.email,
     }).exec((err, user) => {
         if (err) {
@@ -49,31 +44,27 @@ exports.signin = async (req, res) => {
             return;
         }
 
-        const passwordIsValid = bcrypt.compareSync(
-            req.body.password,
-            user.password,
-        );
+        const passwordIsValid = (req.body.password, user.password);
 
         if (!passwordIsValid) {
             res.status(401).send({
-                accessToken: null,
+                // accessToken: null,
                 message: "Invalid Password!",
             });
-            return;
         }
 
-        const token = jwt.sign({id: user.id}, config.secret, {
-            expiresIn: 86400, // 24 hours
-        });
+        // const token = jwt.sign({id: user.id}, config.secret, {
+        //     expiresIn: 86400, // 24 hours
+        // });
 
-        res.status(200).send({
-            _id: user._id,
-            username: user.username,
-            email: user.email,
-            color: user.color,
-            leaves: user.leaves,
-            accessToken: token,
-        });
+        // res.status(200).send({
+        //     _id: user._id,
+        //     username: user.username,
+        //     email: user.email,
+        //     color: user.color,
+        //     leaves: user.leaves,
+        //     accessToken: token,
+        // });
     });
 };
 
@@ -85,7 +76,7 @@ exports.resetPassword = req => {
         if (err) {
             return false;
         }
-        doc.password = bcrypt.hashSync(req.body.password, 8);
+        doc.password = (req.body.password, 8);
         doc.save();
     });
 };

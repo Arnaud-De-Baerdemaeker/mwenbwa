@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-// const mongoose = require("mongoose");
+
 const Schema = mongoose.Schema;
 
 const logSchema = new Schema(
@@ -13,4 +13,4 @@ const logSchema = new Schema(
     {collection: "logs"},
 );
 
-module.exports = mongoose.model("Log", logSchema);
+module.exports = mongoose.model("logs", logSchema);

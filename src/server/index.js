@@ -15,21 +15,14 @@
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const path = require('path');
-// import mongoose from "mongoose";
+
 import express from "express";
 import treesRoutes from "./routes/tree.route";
-import UserRoutes from "./routes/user.route";
-import authRoutes from "./routes/auth.route";
-import logRoutes from "./routes/log.route";
+import userRoutes from "./routes/user.route";
 import * as dotenv from "dotenv";
-import {addIdleLeaves, removeIdleLeaves} from "./control/user.control";
 import TreeShema from "./models/tree.model";
 
 const app = express();
-// mongoose.set("useCreateIndex", true);
-// mongoose.set("useFindAndModify", false);
-
-
 
 const {APP_PORT} = process.env;
 dotenv.config();
@@ -54,36 +47,9 @@ TreeShema.find()
         });
     });
 
-// try {
-//     mongoose.connect(process.env.ATLAS_URI, {
-//         useNewUrlParser: true,
-//         useUnifiedTopology: true,
 
-//     } );
-//     console.log("mongoDB connected");
-
-// } catch(error){
-//     console.log(error);
-// }
-
-// app.get("/*", (_req,res) => {
-//     res.sendFile(path.join(__dirname, "../client/index.html"), err => {
-//         if (err) {
-//             res.status(500).send(err);
-//         }
-//     });
-// });
-
-// app.get("/hello", (req, res) => {
-//     console.log(`ℹ️  (${req.method.toUpperCase()}) ${req.url}`);
-//     res.send("Hello, World!");
-// });
 app.use(treesRoutes);
-app.use(UserRoutes);
-app.use(authRoutes);
-app.use(logRoutes);
+app.use(userRoutes);
 app.listen(APP_PORT, () =>
     console.log(`🚀 Server is listening on port ${APP_PORT}.`),
 );
-addIdleLeaves();
-removeIdleLeaves();
