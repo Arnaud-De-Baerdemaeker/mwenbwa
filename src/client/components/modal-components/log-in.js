@@ -7,12 +7,25 @@ import Username from "./username";
 import Password from "./password";
 import Submit from "./submit";
 
-const LogIn = () => (
-    <form className={"log-in"}>
+const LogIn = props => (
+    <form
+        className={props.logInIsDisplayed ? "log-in--open" : "log-in--closed"}>
         <h2 className={"log-in__title"}>{"Log In to your account"}</h2>
         <Username />
         <Password />
         <Submit />
+        <div className={"log-in__set-account"}>
+            {"Wanna take control of all the trees ?"}
+        </div>
+        <button
+            type={"button"}
+            onClick={() => {
+                props.setLogInIsDisplayed(false);
+                props.setSignInIsDisplayed(true);
+            }}
+            className={"log-in__switch"}>
+            {"Join !"}
+        </button>
     </form>
 );
 
