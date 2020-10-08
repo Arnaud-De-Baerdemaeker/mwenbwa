@@ -15,7 +15,7 @@ import Email from "./email";
 import Password from "./password";
 import Submit from "./submit";
 
-const SignIn = () => {
+const SignIn = props => {
     const [newUser, setNewUser] = useState({
         username: "",
         email: "",
@@ -40,7 +40,11 @@ const SignIn = () => {
     // }
 
     return (
-        <form method={"post"} className={"sign-in"}>
+        <form
+            method={"post"}
+            className={
+                props.signInIsDisplayed ? "sign-in--open" : "sign-in--closed"
+            }>
             <h2 className={"sign-in__title"}>{"Create an account"}</h2>
             <Username newUser={newUser} setNewUser={setNewUser} />
             <Email newUser={newUser} setNewUser={setNewUser} />
@@ -52,6 +56,18 @@ const SignIn = () => {
                 </div>
             </div>
             <Submit /*onSubmit={handleSubmit}*/ />
+            <div className={"sign-in__have-account"}>
+                {"Already collecting ?"}
+            </div>
+            <button
+                type={"button"}
+                onClick={() => {
+                    props.setSignInIsDisplayed(false);
+                    props.setLogInIsDisplayed(true);
+                }}
+                className={"sign-in__switch"}>
+                {"Hop in !"}
+            </button>
         </form>
     );
 };
