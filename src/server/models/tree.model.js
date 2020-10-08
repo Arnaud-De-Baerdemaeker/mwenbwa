@@ -4,7 +4,8 @@ const treesSchema = new mongoose.Schema(
     {
         name: {type: String, default: "For sale"},
         leaves: {type: Number},
-        sci_name: {type: String},
+        hauteur_totale: {type: Number},
+        diametre_cime: {type: Number},
         geoloc: {
             lat: {type: Number},
             lon: {type: Number},

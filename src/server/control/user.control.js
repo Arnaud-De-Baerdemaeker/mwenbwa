@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
-import db from "../models/";
+import db from "../models/index";
 import bcrypt from "bcryptjs";
+
 const User = db.user;
 // const Tree = db.trees;
 
@@ -31,10 +32,11 @@ const User = db.user;
 module.exports = {
     async registeraccount(req, res) {
         try {
-            const {name, email, password, color, leaves} = req.body;
-            const userExist = await User.findOne({name});
+            const {username, email, password, color, leaves} = req.body;
+            const userExist = await User.findOne({username});
             const emailExist = await User.findOne({email});
             const colorExist = await User.findOne({color});
+            // console.log(userExist);
             if (emailExist) {
                 return res.status(400).json({
                     message:
@@ -49,9 +51,9 @@ module.exports = {
                     .status(400)
                     .json({message: "This color is already in use !"});
             }
-            const hashedPassword = await bcrypt.hash(password, 8);
+            const hashedPassword = await bcrypt.hash(password, 10);
             await User.create({
-                name,
+                username,
                 email,
                 password: hashedPassword,
                 color,
@@ -62,6 +64,15 @@ module.exports = {
             return res
                 .status(400)
                 .json({message: `Impossible to create account ${error}`});
+        }
+    },
+
+    async deleteUser(req, res) {
+        try {
+            await User.deleteOne({username: req.body.username});
+            res.json({message: "Account successfully deleted !"});
+        } catch (error) {
+            res.status(400).json({message: "Error !!"});
         }
     },
 };

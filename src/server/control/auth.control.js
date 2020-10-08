@@ -5,28 +5,32 @@ import db from "../models/index";
 const User = db.user;
 
 module.exports = {
-    signup(req, res) {
-        const user = new User({
-            username: req.body.username,
-            email: req.body.email,
-            password: (req.body.password, 8),
-            color: req.body.color,
-            leaves: 0,
-        });
-        user.save((err, resp) => {
-            if (err) {
-                res.status(500).send({message: err});
-                return;
-            }
+    async signup(req, res) {
+        try {
+            const user = new User({
+                username: req.body.username,
+                email: req.body.email,
+                password: (req.body.password, 8),
+                color: req.body.color,
+                leaves: 0,
+            });
+            await user.save((err, resp) => {
+                if (err) {
+                    res.status(500).send({message: err});
+                    return;
+                }
 
-            addFirstLeaves(resp);
-            addFirstTrees(resp);
-            addFirstTrees(resp);
-            addFirstTrees(resp);
+                addFirstLeaves(resp);
+                addFirstTrees(resp);
+                addFirstTrees(resp);
+                addFirstTrees(resp);
 
-            app.post("/api/auth/signin", signin);
-            res.send({message: "User was registered successfully!"});
-        });
+                app.post("/api/auth/signin", signin);
+                res.send({message: "User was registered successfully!"});
+            });
+        } catch (error) {
+            res.status(400).json({message: "Error !!"});
+        }
     },
 };
 
@@ -76,7 +80,7 @@ exports.resetPassword = req => {
         if (err) {
             return false;
         }
-        doc.password = (req.body.password, 8);
+        doc.password = (req.body.password, 10);
         doc.save();
     });
 };

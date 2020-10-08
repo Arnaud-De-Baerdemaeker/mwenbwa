@@ -3,10 +3,10 @@ import express from "express";
 
 const usersRoutes = express.Router();
 
-// usersRoutes.post("/api/deleteUserAndTrees", controller.deleteUserAndTrees);
+usersRoutes.post("/api/postUser", controller.registeraccount);
+
+usersRoutes.delete("/api/deleteUser", controller.deleteUser);
 
 // usersRoutes.get("/api/allUsers", controller.allUsers);
-
-usersRoutes.post("/api/postUser", controller.registeraccount);
 
 module.exports = usersRoutes;

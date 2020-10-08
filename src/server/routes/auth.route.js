@@ -1,6 +1,7 @@
 /* eslint-disable no-undef */
-// import verifySignUp from "../middlewares/verify-sign-up";
+
 import controller from "../control/auth.control";
+import verifySignUp from "../middlewares/verify-sign-up";
 import express from "express";
 
 const authRoutes = express.Router();
@@ -19,6 +20,6 @@ authRoutes.post(
     controller.signup,
 );
 
-authRoutes.post("/api/auth/signin", controller.signin);
+// authRoutes.post("/api/auth/signin", controller.signin);
 
-authRoutes.post("/api/auth/resetPassword", controller.resetPassword);
+// authRoutes.post("/api/auth/resetPassword", controller.resetPassword);
