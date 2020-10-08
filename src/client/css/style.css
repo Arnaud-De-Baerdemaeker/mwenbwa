@@ -3,41 +3,92 @@ body {
 }
 
 .modal {
-  padding: 20px;
+  display: -ms-grid;
+  display: grid;
+  -ms-flex-line-pack: center;
+      align-content: center;
   width: 90vw;
-  margin: 0 auto 0 auto;
+  height: 85vh;
+  margin: 5vh auto 0 auto;
+  padding: 20px;
   text-align: center;
   border-radius: 20px;
   -webkit-box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
           box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
 }
 
-.modal .modal__title {
+.sign-in--open .sign-in__title {
   font-family: "Bubblegum Sans", cursive;
-  font-size: 2rem;
-  word-spacing: 1rem;
-  letter-spacing: 0.5rem;
-  margin: 0 0 40px 0;
-}
-
-.sign-in .sign-in__title, .sign-in .log-in__title, .log-in .sign-in__title, .log-in .log-in__title {
   font-size: 1.5rem;
   margin: 0 0 40px 0;
 }
 
-.sign-in .color, .log-in .color {
-  margin: 0 0 20px 0;
+.sign-in--open .color {
+  width: 40%;
+  margin: 0 auto 20px auto;
 }
 
-.sign-in .color .color__title, .log-in .color .color__title {
-  font-size: 1rem;
+.sign-in--open .color .color__title {
+  font-size: 0.9rem;
   margin: 0 0 5px 0;
   font-weight: normal;
 }
 
-.sign-in .color .color__container, .log-in .color .color__container {
+.sign-in--open .color .color__container {
   display: -ms-grid;
   display: grid;
+}
+
+.sign-in--open .sign-in__have-account {
+  margin-bottom: 5px;
+  font-size: 0.9rem;
+}
+
+.sign-in--open .sign-in__switch {
+  padding: 10px 30px;
+  border-style: solid;
+  border-width: 2px;
+  border-color: #2e7d32;
+  color: #2e7d32;
+  border-radius: 2px;
+  -webkit-box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+          box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+}
+
+.sign-in--closed {
+  position: fixed;
+  right: 100vw;
+  opacity: 0;
+}
+
+.log-in--open .log-in__title {
+  font-family: "Bubblegum Sans", cursive;
+  font-size: 1.5rem;
+  margin: 0 0 40px 0;
+}
+
+.log-in--open .log-in__set-account {
+  margin-bottom: 5px;
+  font-size: 0.9rem;
+}
+
+.log-in--open .log-in__switch {
+  padding: 10px 30px;
+  border-style: solid;
+  border-width: 2px;
+  border-color: #2e7d32;
+  color: #2e7d32;
+  border-radius: 2px;
+  -webkit-box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+          box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+}
+
+.log-in--closed {
+  position: fixed;
+  right: 100vw;
+  opacity: 0;
 }
 
 .username {
@@ -46,6 +97,7 @@ body {
 
 .username .username__label {
   display: block;
+  font-size: 0.9rem;
   margin: 0 0 5px 0;
 }
 
@@ -55,6 +107,7 @@ body {
 
 .email .email__label {
   display: block;
+  font-size: 0.9rem;
   margin: 0 0 5px 0;
 }
 
@@ -64,12 +117,17 @@ body {
 
 .password .password__label {
   display: block;
+  font-size: 0.9rem;
   margin: 0 0 5px 0;
 }
 
 .circle-picker {
   -ms-grid-column-align: center;
       justify-self: center;
+}
+
+.submit {
+  margin-bottom: 20px;
 }
 
 .submit .submit__button {
