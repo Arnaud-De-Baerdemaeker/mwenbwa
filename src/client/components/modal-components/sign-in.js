@@ -9,53 +9,37 @@
 
 import React, {useState} from "react";
 import {SliderPicker} from "react-color-hook";
-// import axios from "axios";
 import Username from "./username";
 import Email from "./email";
 import Password from "./password";
 import Submit from "./submit";
 
 const SignIn = props => {
-    const [newUser, setNewUser] = useState({
-        username: "",
-        email: "",
-        password: "",
-        color: "",
-    });
-
-    function handleChange(e) {
-        setNewUser({...newUser, color: e.hex});
-    }
-
-    // function handleSubmit(e) {
-    //     e.preventDefault();
-    //     axios
-    //         .post("/api/auth/signup", newUser)
-    //         .then(res => {
-    //             console.log(res);
-    //         })
-    //         .catch(error => {
-    //             console.log(error);
-    //         });
-    // }
+    const [color, setColor] = useState();
 
     return (
         <form
-            method={"post"}
+            method={"POST"}
+            action={"/api/postUser"}
             className={
                 props.signInIsDisplayed ? "sign-in--open" : "sign-in--closed"
             }>
             <h2 className={"sign-in__title"}>{"Create an account"}</h2>
-            <Username newUser={newUser} setNewUser={setNewUser} />
-            <Email newUser={newUser} setNewUser={setNewUser} />
-            <Password newUser={newUser} setNewUser={setNewUser} />
+            <Username />
+            <Email />
+            <Password />
             <div className={"color"}>
                 <h3 className={"color__title"}>{"Pick a color"}</h3>
                 <div className={"color__container"}>
-                    <SliderPicker onChange={handleChange} />
+                    <input type={"hidden"} name={"color"} value={color} />
+                    <SliderPicker
+                        onChangeComplete={e => {
+                            setColor(e.hex);
+                        }}
+                    />
                 </div>
             </div>
-            <Submit /*onSubmit={handleSubmit}*/ />
+            <Submit />
             <div className={"sign-in__have-account"}>
                 {"Already collecting ?"}
             </div>
