@@ -7,8 +7,6 @@ routes.get("/api/allTrees", treeControl.allTrees);
 
 routes.post("/api/addTrees", treeControl.addTrees);
 
-routes.delete("/api/deleteNull", treeControl.deleteTreeNull);
-
 // routes.post("/api/buyTree", treeControl.buyTree);
 
 // routes.post("/api/reBuyTree", treeControl.reBuyTree);

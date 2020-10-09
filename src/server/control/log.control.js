@@ -20,9 +20,7 @@ module.exports = {
             res.status(400).json({message: "Error !!"});
         }
     },
-};
 
-module.exports = {
     async postLog(req, res) {
         try {
             const log = await new Log({

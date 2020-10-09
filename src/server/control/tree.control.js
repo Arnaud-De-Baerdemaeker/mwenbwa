@@ -45,21 +45,4 @@ module.exports = {
             res.status(400).json({message: "Error !!"});
         }
     },
-    async deleteTreeNull(req, res) {
-        try {
-            const treeArray = await Tree.find({geoloc: "null"});
-            console.log(treeArray);
-            treeArray.forEach(async element => {
-                try {
-                    await Tree.deleteOne({
-                        __id: element.id,
-                    });
-                } catch (error) {
-                    console.log(error);
-                }
-            });
-        } catch (error) {
-            res.status(400).json({message: "Error !!"});
-        }
-    },
 };
