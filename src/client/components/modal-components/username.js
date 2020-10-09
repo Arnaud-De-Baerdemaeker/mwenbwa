@@ -4,26 +4,17 @@
 
 import React from "react";
 
-const Username = props => {
-    function handleChange(e) {
-        props.setNewUser({...props.newUser, username: e.target.value});
-    }
-
-    return (
-        <div className={"username"}>
-            <label htmlFor={"username"} className={"username__label"}>
-                {"Username"}
-            </label>
-            <input
-                type={"text"}
-                name={"username"}
-                // value={props.newUser.username}
-                onChange={handleChange}
-                className={"username__field"}
-                required
-            />
-        </div>
-    );
-};
-
+const Username = () => (
+    <div className={"username"}>
+        <label htmlFor={"username"} className={"username__label"}>
+            {"Username"}
+        </label>
+        <input
+            type={"text"}
+            name={"username"}
+            className={"username__field"}
+            required
+        />
+    </div>
+);
 export default Username;
