@@ -4,25 +4,12 @@
 
 import React from "react";
 
-const Email = props => {
-    function handleChange(e) {
-        props.setNewUser({...props.newUser, email: e.target.value});
-    }
-
-    return (
-        <div className={"email"}>
-            <label htmlFor={"email"} className={"email__label"}>
-                {"E-mail"}
-            </label>
-            <input
-                type={"email"}
-                name={"E-mail"}
-                // value={props.newUser.email}
-                onChange={handleChange}
-                required
-            />
-        </div>
-    );
-};
-
+const Email = () => (
+    <div className={"email"}>
+        <label htmlFor={"email"} className={"email__label"}>
+            {"E-mail"}
+        </label>
+        <input type={"email"} name={"email"} required />
+    </div>
+);
 export default Email;
