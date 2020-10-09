@@ -10,7 +10,7 @@ import * as React from "react";
 import GameBuilder from "./container/gameBuilder";
 import {HashRouter} from "react-router-dom";
 
-const HelloWorld = () => (
+const Game = () => (
     <HashRouter>
         <div>
             <GameBuilder />
@@ -18,4 +18,4 @@ const HelloWorld = () => (
     </HashRouter>
 );
 
-export default HelloWorld;
+export default Game;

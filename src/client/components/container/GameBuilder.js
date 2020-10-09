@@ -10,12 +10,12 @@ class Layout extends Component {
         return (
             <div>
                 <div>
-                    <Header isLog={this.state.isLogged} />
+                    <Header />
                 </div>
 
                 <main>
                     <Route path="/" exact component={Mab} />
-                    <Route path="/sign-up" render={() => <div>Hello</div>} />
+                    <Route path="/sign-up" render={() => "signup"} />
                     <Route path="/login" render={() => "login"} />
                 </main>
             </div>

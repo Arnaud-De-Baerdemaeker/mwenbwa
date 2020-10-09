@@ -1,18 +1,14 @@
 import React from "react";
 
+const Input = (props) => {
+    const {label, ...attr} = props;
 
-const Input = (props)=>{
-
-    const {label , ...attr} = props;
-
-    return(
+    return (
         <div>
             <label>{props.label}</label>
             <input {...attr} />
         </div>
-    )
-
-} 
-
+    );
+};
 
 export default Input;

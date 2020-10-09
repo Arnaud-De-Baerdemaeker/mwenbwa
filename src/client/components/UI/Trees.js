@@ -8,11 +8,14 @@ const Trees = (props) => {
         return (
             <Marker key={uuid()} position={[tree.geoloc.lat, tree.geoloc.lon]}>
                 <Popup>
-                    <p>
-                        {Math.floor(tree.hauteur_totale * tree.diametre_cime)}
-                    </p>
-
-                    {tree.nom_complet}
+                    <ul>
+                        <li> {tree.nom_complet}</li>
+                        <li>
+                            {`Value: ${Math.ceil(
+                                tree.hauteur_totale * tree.diametre_cime,
+                            )} Leaves`}
+                        </li>
+                    </ul>
                 </Popup>
             </Marker>
         );
