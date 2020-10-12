@@ -21,6 +21,7 @@ const SignIn = props => {
         <form
             method={"POST"}
             action={"/api/postUser"}
+            // Change the CSS class following the state of the constant
             className={
                 props.signInIsDisplayed ? "sign-in--open" : "sign-in--closed"
             }>
@@ -31,6 +32,7 @@ const SignIn = props => {
             <div className={"color"}>
                 <h3 className={"color__title"}>{"Pick a color"}</h3>
                 <div className={"color__container"}>
+                    {/* Hidden input field to catch the value of the color */}
                     <input type={"hidden"} name={"color"} value={color} />
                     <SliderPicker
                         onChangeComplete={e => {
