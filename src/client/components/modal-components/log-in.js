@@ -9,6 +9,7 @@ import Submit from "./submit";
 
 const LogIn = props => (
     <form
+        // Change the CSS class following the state of the constant
         className={props.logInIsDisplayed ? "log-in--open" : "log-in--closed"}>
         <h2 className={"log-in__title"}>{"Log In to your account"}</h2>
         <Username />
