@@ -4,7 +4,9 @@ import {Route} from "react-router-dom";
 import Mab from "../UI/map";
 
 class Layout extends Component {
-    state = {};
+    state = {
+        isLogin: true,
+    };
 
     render() {
         return (
@@ -14,9 +16,19 @@ class Layout extends Component {
                 </div>
 
                 <main>
-                    <Route path="/" exact component={Mab} />
+                    {this.state.isLogin ? (
+                        <Route path="/" excat component={Mab} />
+                    ) : (
+                        <Route path="/" render={() => "login"} />
+                    )}
                     <Route path="/sign-up" render={() => "signup"} />
                     <Route path="/login" render={() => "login"} />
+                    <Route
+                        path="/contact"
+                        render={() => {
+                            <h1>Contact</h1>;
+                        }}
+                    />
                 </main>
             </div>
         );

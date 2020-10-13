@@ -6,24 +6,12 @@ const MapComponent = () => {
     const [trees, setTrees] = useState([]);
 
     useEffect(() => {
-        fetch(
-            "https://raw.githubusercontent.com/leny/mwenbwa/master/data/arbustum.json",
-        )
+        fetch("http://192.168.99.100/api/allTrees")
             .then((response) => response.text())
             .then((data) => {
-                let treesAfterFiltering = [];
                 const trees = JSON.parse(data);
 
-                treesAfterFiltering = trees.filter((tree) => {
-                    return (
-                        tree.geoloc !== null &&
-                        tree.hauteur_totale !== null &&
-                        tree.arbotag !== null &&
-                        tree.diametre_cime !== null
-                    );
-                });
-
-                setTrees(treesAfterFiltering);
+                setTrees(trees);
             });
     }, []);
 
