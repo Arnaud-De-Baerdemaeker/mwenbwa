@@ -2,42 +2,40 @@
 /* eslint-disable no-console */
 import db from "../models/index";
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
+import jwt from "../middlewares/auth-jwt";
+
+const Tree = db.tree;
 const User = db.user;
-// const Tree = db.tree;
-
-// module.exports = {
-//     async allUsers(req, res) {
-//         try {
-//             await User.find()
-//                 .sort([["leaves", -1]])
-//                 .exec((err, allUsers) => {
-//                     if (err) {
-//                         res.status(500).send({message: err});
-//                         return;
-//                     }
-
-//                     if (!allUsers) {
-//                         res.status(404).send({message: "Users Not found."});
-//                         return;
-//                     }
-
-//                     res.json(allUsers);
-//                 });
-//         } catch (error) {
-//             res.status(400).json({message: "Error !!"});
-//         }
-//     },
-// };
 
 module.exports = {
+    async allUsers(req, res) {
+        try {
+            await User.find()
+                .sort([["leaves", -1]])
+                .exec((err, allUsers) => {
+                    if (err) {
+                        res.status(500).send({message: err});
+                        return;
+                    }
+
+                    if (!allUsers) {
+                        res.status(404).send({message: "Users Not found."});
+                        return;
+                    }
+
+                    res.json(allUsers);
+                });
+        } catch (error) {
+            res.status(400).json({message: "Error !!"});
+        }
+    },
     async registeraccount(req, res) {
         try {
             const {username, email, password, color, leaves} = req.body;
             const userExist = await User.findOne({username});
             const emailExist = await User.findOne({email});
             const colorExist = await User.findOne({color});
-            // console.log(userExist);
+            console.log(userExist);
             if (emailExist) {
                 return res.status(400).json({
                     message:
@@ -78,34 +76,131 @@ module.exports = {
     },
 
     async login(req, res) {
-        await User.findOne({email: req.body.email})
-            .then(user => {
-                if (!user) {
-                    return res.status(401).json({error: "User not found!"});
-                }
-                bcrypt
-                    .compare(req.body.password, user.password)
-                    .then(valid => {
-                        if (!valid) {
-                            return res
-                                .status(401)
-                                .json({error: "Password incorrect!"});
+        try {
+            const {username, password} = req.body;
+            const userLog = await User.find({username});
+            const hashedPassword = await bcrypt.hash(password, 10);
+            if (userLog) {
+                bcrypt.compare(
+                    hashedPassword,
+                    userLog.password,
+                    (err, res1) => {
+                        if (res1) {
+                            res.status(201).json({
+                                userId: userLog._id,
+                                token: jwt.generateToken(userLog),
+                            });
+                            return;
                         }
-                        res.status(200).json({
-                            userId: user._id,
-                            token: jwt.sign(
-                                {userId: user._id},
-                                "RANDOM_TOKEN_SECRET",
-                                {expiresIn: "24h"},
-                            ),
-                        });
-                    })
-                    .catch(error => res.status(500).json({error}));
-            })
-            .catch(error => res.status(500).json({error}));
+                        return res
+                            .status(403)
+                            .json({error: "invalid Paswword"});
+                    },
+                );
+            }
+            return res.status(404).json({error: "User not found!"});
+        } catch (error) {
+            return res.status(400).json({message: error.message});
+        }
     },
 
-    async addFirstLeaves(req, res) {
+    // async addFirstLeaves(req, res) {
+    //     try {
+    //         const {_id} = req.body;
+    //         await User.find({}).exec((err, users) => {
+    //             if (err) {
+    //                 res.status(500).send({message: err});
+    //                 return;
+    //             }
+
+    //             if (!users) {
+    //                 res.status(404).send({
+    //                     message: "Failed! User not found!",
+    //                 });
+    //                 return;
+    //             }
+
+    //             let totUsersLeaves = 0;
+    //             let usersLenght = -1;
+
+    //             users.forEach(user => {
+    //                 totUsersLeaves += user.leaves;
+    //                 usersLenght += 1;
+    //             });
+
+    //             const usersLeaves = totUsersLeaves / usersLenght;
+
+    //             users
+    //                 .findIdandUpdate(_id, {
+    //                     leaves: usersLeaves,
+    //                 })
+    //                 .exec(error => {
+    //                     if (error) {
+    //                         return res.status(500).send({message: error});
+    //                     }
+    //                 });
+    //         });
+    //     } catch (error) {
+    //         return res.status(400).json({message: error.message});
+    //     }
+    // },
+
+    async addIdleLeaves(req, res) {
+        try {
+            await User.find({}).exec((err, users) => {
+                if (err) {
+                    res.status(500).send({message: err});
+                    return;
+                }
+                console.log(users);
+                if (!users) {
+                    res.status(404).send({
+                        message: "Failed! User not found!",
+                    });
+                    return;
+                }
+
+                users.forEach(user => {
+                    Tree.find({owner: user.username}).exec(
+                        (error, allTrees) => {
+                            if (error) {
+                                console.error(error);
+                                return;
+                            }
+                            let totalLeavesTrees = 0;
+                            const leavesUser = user.leaves;
+                            let newLeavesUser = 0;
+
+                            allTrees.forEach(tree => {
+                                totalLeavesTrees += tree.leaves;
+                            });
+
+                            newLeavesUser = Math.floor(
+                                leavesUser + totalLeavesTrees,
+                            );
+                            user.leaves = newLeavesUser;
+
+                            user.save(erro => {
+                                if (erro) {
+                                    return res
+                                        .status(500)
+                                        .json({message: erro});
+                                }
+                            });
+
+                            console.log(
+                                `Add ${totalLeavesTrees} Leaves to ${user.username} total: ${user.leaves}`,
+                            );
+                        },
+                    );
+                });
+            });
+        } catch (error) {
+            return res.status(400).json({message: "Error !!"});
+        }
+    },
+
+    async removeIdleLeaves(req, res) {
         try {
             await User.find({}).exec((err, users) => {
                 if (err) {
@@ -120,112 +215,29 @@ module.exports = {
                     return;
                 }
 
-                let totUsersLeaves = 0;
-                let usersLenght = -1;
-
                 users.forEach(user => {
-                    totUsersLeaves += user.leaves;
-                    usersLenght += 1;
-                });
+                    const leavesUser = user.leaves;
+                    let newLeavesUser = 0;
 
-                const usersLeaves = totUsersLeaves / usersLenght;
+                    newLeavesUser = Math.floor(leavesUser / 2);
 
-                User.findByIdAndUpdate(req._id, {leaves: usersLeaves}).exec(
-                    error => {
+                    user.leaves = newLeavesUser;
+
+                    user.save(error => {
                         if (error) {
-                            res.status(500).send({message: error});
+                            return res.status(500).send({message: error});
                         }
-                    },
-                );
+                    });
+
+                    console.log(
+                        `Remove ${Math.floor(leavesUser / 2)} Leaves to ${
+                            user.username
+                        } total: ${user.leaves}`,
+                    );
+                });
             });
         } catch (error) {
-            res.status(400).json({message: "Error !!"});
+            return res.status(400).json({message: "Error !!"});
         }
     },
-
-    //     addIdleLeaves(req, res) {
-    //         User.find({}).exec((err, users) => {
-    //             if (err) {
-    //                 res.status(500).send({message: err});
-    //                 return;
-    //             }
-
-    //             if (!users) {
-    //                 res.status(404).send({
-    //                     message: "Failed! User not found!",
-    //                 });
-    //                 return;
-    //             }
-
-    //             users.forEach(user => {
-    //                 Tree.find({owner: user.username}).exec((error, allTrees) => {
-    //                     if (error) {
-    //                         console.error(error);
-    //                     }
-
-    //                     let totalLeavesTrees = 0;
-    //                     const leavesUser = user.leaves;
-    //                     let newLeavesUser = 0;
-
-    //                     allTrees.forEach(tree => {
-    //                         totalLeavesTrees += tree.leaves;
-    //                     });
-
-    //                     newLeavesUser = Math.floor(leavesUser + totalLeavesTrees);
-    //                     user.leaves = newLeavesUser;
-
-    //                     user.save(erro => {
-    //                         if (erro) {
-    //                             res.status(500).send({message: erro});
-    //                         }
-    //                     });
-
-    //                     console.log(
-    //                         `Add ${totalLeavesTrees} Leaves to ${user.username} total: ${user.leaves}`,
-    //                     );
-    //                 });
-    //             });
-    //         });
-    //     },
-
-    //     async removeIdleLeaves(req, res) {
-    //         try {
-    //             await User.find({}).exec((err, users) => {
-    //                 if (err) {
-    //                     res.status(500).send({message: err});
-    //                     return;
-    //                 }
-
-    //                 if (!users) {
-    //                     res.status(404).send({
-    //                         message: "Failed! User not found!",
-    //                     });
-    //                     return;
-    //                 }
-
-    //                 users.forEach(user => {
-    //                     const leavesUser = user.leaves;
-    //                     let newLeavesUser = 0;
-
-    //                     newLeavesUser = Math.floor(leavesUser / 2);
-
-    //                     user.leaves = newLeavesUser;
-
-    //                     user.save(async error => {
-    //                         if (error) {
-    //                             await res.status(500).send({message: error});
-    //                         }
-    //                     });
-
-    //                     console.log(
-    //                         `Remove ${Math.floor(leavesUser / 2)} Leaves to ${
-    //                             user.username
-    //                         } total: ${user.leaves}`,
-    //                     );
-    //                 });
-    //             });
-    //         } catch (error) {
-    //             res.status(400).json({message: "Error !!"});
-    //         }
-    //     },
 };

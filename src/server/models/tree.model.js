@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const treesSchema = new mongoose.Schema(
     {
-        name: {type: String},
+        name: {type: String, default: "For sale"},
         leaves: {type: Number},
         hauteur_totale: {type: Number},
         diametre_cime: {type: Number},
