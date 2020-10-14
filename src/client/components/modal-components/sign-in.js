@@ -14,7 +14,11 @@ import Email from "./email";
 import Password from "./password";
 import Submit from "./submit";
 
-const SignIn = props => {
+const SignIn = ({
+    signInIsDisplayed,
+    setSignInIsDisplayed,
+    setLogInIsDisplayed,
+}) => {
     const [color, setColor] = useState();
 
     return (
@@ -22,9 +26,7 @@ const SignIn = props => {
             method={"POST"}
             action={"/api/postUser"}
             // Change the CSS class following the state of the constant
-            className={
-                props.signInIsDisplayed ? "sign-in--open" : "sign-in--closed"
-            }>
+            className={signInIsDisplayed ? "sign-in--open" : "sign-in--closed"}>
             <h2 className={"sign-in__title"}>{"Create an account"}</h2>
             <Username />
             <Email />
@@ -48,8 +50,8 @@ const SignIn = props => {
             <button
                 type={"button"}
                 onClick={() => {
-                    props.setSignInIsDisplayed(false);
-                    props.setLogInIsDisplayed(true);
+                    setSignInIsDisplayed(false);
+                    setLogInIsDisplayed(true);
                 }}
                 className={"sign-in__switch"}>
                 {"Hop in !"}
