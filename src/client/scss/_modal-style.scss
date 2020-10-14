@@ -1,4 +1,4 @@
-.modal // <div>
+.modal--open // <div>
 {
     display: grid;
     align-content: center;
@@ -9,4 +9,11 @@
     text-align: center;
     border-radius: 20px;
     box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
+}
+
+.modal--closed // <div>
+{
+    position: fixed;
+    right: 100vw;
+    opacity: 0;
 }
