@@ -7,10 +7,14 @@ import Username from "./username";
 import Password from "./password";
 import Submit from "./submit";
 
-const LogIn = props => (
+const LogIn = ({
+    logInIsDisplayed,
+    setLogInIsDisplayed,
+    setSignInIsDisplayed,
+}) => (
     <form
         // Change the CSS class following the state of the constant
-        className={props.logInIsDisplayed ? "log-in--open" : "log-in--closed"}>
+        className={logInIsDisplayed ? "log-in--open" : "log-in--closed"}>
         <h2 className={"log-in__title"}>{"Log In to your account"}</h2>
         <Username />
         <Password />
@@ -21,8 +25,8 @@ const LogIn = props => (
         <button
             type={"button"}
             onClick={() => {
-                props.setLogInIsDisplayed(false);
-                props.setSignInIsDisplayed(true);
+                setLogInIsDisplayed(false);
+                setSignInIsDisplayed(true);
             }}
             className={"log-in__switch"}>
             {"Join !"}
