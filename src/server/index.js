@@ -21,7 +21,7 @@ import userRoutes from "./routes/user.route";
 import logRoutes from "./routes/log.route";
 import * as dotenv from "dotenv";
 import TreeShema from "./models/tree.model";
-import {addFirstLeaves} from "./control/user.control";
+// import {addFirstLeaves} from "./control/user.control";
 
 const app = express();
 
@@ -66,7 +66,7 @@ app.get("/*", (req, res) => {
 app.listen(APP_PORT, () =>
     console.log(`🚀 Server is listening on port ${APP_PORT}.`),
 );
-addFirstLeaves();
+// addFirstLeaves();
 // removeIdleLeaves();
 // function repeatAdd(){
 // setTimeout(addIdleLeaves, 900000);

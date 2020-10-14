@@ -5,8 +5,27 @@ import bcrypt from "bcryptjs";
 import jwt from "../middlewares/auth-jwt";
 import Tree from "../models/tree.model";
 import User from "../models/user.model";
+// import mongoose from "mongoose";
 // const Tree = db.tree;
 // const User = db.user;
+
+const addFirstLeaves = async (req, res) => {
+    try {
+        const usersLeaves = await User.find({leaves: {$exists: true}});
+        // const numberOfUsers = await usersLeaves.count;
+        let userCount = 0;
+        let leaveCount = 0;
+        usersLeaves.forEach(user => {
+            userCount += 1;
+            leaveCount += user.leaves;
+        });
+        console.log(userCount);
+        console.log(leaveCount);
+        return leaveCount / userCount;
+    } catch (error) {
+        return res.status(400).json({message: "Impossible"});
+    }
+};
 
 module.exports = {
     async allUsers(req, res) {
@@ -32,7 +51,7 @@ module.exports = {
     },
     async registeraccount(req, res) {
         try {
-            const {username, email, password, color, leaves} = req.body;
+            const {username, email, password, color} = req.body;
             const userExist = await User.findOne({username});
             const emailExist = await User.findOne({email});
             const colorExist = await User.findOne({color});
@@ -51,12 +70,14 @@ module.exports = {
                     .json({message: "This color is already in use !"});
             }
             const hashedPassword = await bcrypt.hash(password, 10);
+            const startLeave = await addFirstLeaves();
+
             await User.create({
                 username,
                 email,
                 password: hashedPassword,
                 color,
-                leaves,
+                leaves: startLeave,
             });
             return res.status(200).json({message: `User has been created !`});
         } catch (error) {
@@ -102,48 +123,6 @@ module.exports = {
             // .json({error: "User not found!"});
         } catch (error) {
             return res.status(400).json({message: error.message});
-        }
-    },
-
-    async addFirstLeaves(req, res) {
-        try {
-            const {_id} = req.body;
-            await User.find({}).exec((err, users) => {
-                console.log(users);
-                if (err) {
-                    res.status(500).send({message: err});
-                    return;
-                }
-
-                if (!users) {
-                    res.status(404).send({
-                        message: "Failed! User not found!",
-                    });
-                    return;
-                }
-
-                let totUsersLeaves = 0;
-                let usersLenght = -1;
-
-                users.forEach(user => {
-                    totUsersLeaves += user.leaves;
-                    usersLenght += 1;
-                });
-
-                const usersLeaves = totUsersLeaves / usersLenght;
-
-                users
-                    .findIdandUpdate(_id, {
-                        leaves: usersLeaves,
-                    })
-                    .exec(error => {
-                        if (error) {
-                            return res.status(500).send({message: error});
-                        }
-                    });
-            });
-        } catch (error) {
-            // return res.status(400).json({message: error.message});
         }
     },
 
