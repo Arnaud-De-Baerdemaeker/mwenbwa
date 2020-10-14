@@ -1,11 +1,12 @@
 /* eslint-disable consistent-return */
 /* eslint-disable no-console */
-import db from "../models/index";
+// import db from "../models/index";
 import bcrypt from "bcryptjs";
 import jwt from "../middlewares/auth-jwt";
-
-const Tree = db.tree;
-const User = db.user;
+import Tree from "../models/tree.model";
+import User from "../models/user.model";
+// const Tree = db.tree;
+// const User = db.user;
 
 module.exports = {
     async allUsers(req, res) {
@@ -35,7 +36,6 @@ module.exports = {
             const userExist = await User.findOne({username});
             const emailExist = await User.findOne({email});
             const colorExist = await User.findOne({color});
-            console.log(userExist);
             if (emailExist) {
                 return res.status(400).json({
                     message:
@@ -78,12 +78,12 @@ module.exports = {
     async login(req, res) {
         try {
             const {username, password} = req.body;
-            const userLog = await User.find({username});
-            const hashedPassword = await bcrypt.hash(password, 10);
+            const userLog = await User.findOne({username});
             if (userLog) {
                 bcrypt.compare(
-                    hashedPassword,
+                    password,
                     userLog.password,
+
                     (err, res1) => {
                         if (res1) {
                             res.status(201).json({
@@ -98,52 +98,54 @@ module.exports = {
                     },
                 );
             }
-            return res.status(404).json({error: "User not found!"});
+            return res.status(404);
+            // .json({error: "User not found!"});
         } catch (error) {
             return res.status(400).json({message: error.message});
         }
     },
 
-    // async addFirstLeaves(req, res) {
-    //     try {
-    //         const {_id} = req.body;
-    //         await User.find({}).exec((err, users) => {
-    //             if (err) {
-    //                 res.status(500).send({message: err});
-    //                 return;
-    //             }
+    async addFirstLeaves(req, res) {
+        try {
+            const {_id} = req.body;
+            await User.find({}).exec((err, users) => {
+                console.log(users);
+                if (err) {
+                    res.status(500).send({message: err});
+                    return;
+                }
 
-    //             if (!users) {
-    //                 res.status(404).send({
-    //                     message: "Failed! User not found!",
-    //                 });
-    //                 return;
-    //             }
+                if (!users) {
+                    res.status(404).send({
+                        message: "Failed! User not found!",
+                    });
+                    return;
+                }
 
-    //             let totUsersLeaves = 0;
-    //             let usersLenght = -1;
+                let totUsersLeaves = 0;
+                let usersLenght = -1;
 
-    //             users.forEach(user => {
-    //                 totUsersLeaves += user.leaves;
-    //                 usersLenght += 1;
-    //             });
+                users.forEach(user => {
+                    totUsersLeaves += user.leaves;
+                    usersLenght += 1;
+                });
 
-    //             const usersLeaves = totUsersLeaves / usersLenght;
+                const usersLeaves = totUsersLeaves / usersLenght;
 
-    //             users
-    //                 .findIdandUpdate(_id, {
-    //                     leaves: usersLeaves,
-    //                 })
-    //                 .exec(error => {
-    //                     if (error) {
-    //                         return res.status(500).send({message: error});
-    //                     }
-    //                 });
-    //         });
-    //     } catch (error) {
-    //         return res.status(400).json({message: error.message});
-    //     }
-    // },
+                users
+                    .findIdandUpdate(_id, {
+                        leaves: usersLeaves,
+                    })
+                    .exec(error => {
+                        if (error) {
+                            return res.status(500).send({message: error});
+                        }
+                    });
+            });
+        } catch (error) {
+            // return res.status(400).json({message: error.message});
+        }
+    },
 
     async addIdleLeaves(req, res) {
         try {
@@ -152,7 +154,7 @@ module.exports = {
                     res.status(500).send({message: err});
                     return;
                 }
-                console.log(users);
+                // console.log(users);
                 if (!users) {
                     res.status(404).send({
                         message: "Failed! User not found!",
@@ -170,7 +172,6 @@ module.exports = {
                             let totalLeavesTrees = 0;
                             const leavesUser = user.leaves;
                             let newLeavesUser = 0;
-
                             allTrees.forEach(tree => {
                                 totalLeavesTrees += tree.leaves;
                             });
@@ -182,9 +183,7 @@ module.exports = {
 
                             user.save(erro => {
                                 if (erro) {
-                                    return res
-                                        .status(500)
-                                        .json({message: erro});
+                                    res.status(500).send({message: erro});
                                 }
                             });
 
@@ -196,7 +195,7 @@ module.exports = {
                 });
             });
         } catch (error) {
-            return res.status(400).json({message: "Error !!"});
+            res.status(400).json({message: "Error !!"});
         }
     },
 
@@ -225,7 +224,7 @@ module.exports = {
 
                     user.save(error => {
                         if (error) {
-                            return res.status(500).send({message: error});
+                            res.status(500).send({message: error});
                         }
                     });
 

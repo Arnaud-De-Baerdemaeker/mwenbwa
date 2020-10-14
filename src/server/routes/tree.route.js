@@ -7,7 +7,7 @@ routes.get("/api/allTrees", treeControl.allTrees);
 
 routes.post("/api/addTrees", treeControl.addTrees);
 
-routes.put("/api/buyTree", treeControl.buyTree);
+routes.post("/api/buyTree", treeControl.buyTree);
 
 routes.post("/api/addComment", treeControl.addComment);
 

@@ -20,8 +20,8 @@ import treesRoutes from "./routes/tree.route";
 import userRoutes from "./routes/user.route";
 import logRoutes from "./routes/log.route";
 import * as dotenv from "dotenv";
-// import TreeShema from "./models/tree.model";
-import {addIdleLeaves, removeIdleLeaves} from "./control/user.control";
+import TreeShema from "./models/tree.model";
+import {addFirstLeaves} from "./control/user.control";
 
 const app = express();
 
@@ -40,19 +40,19 @@ const ConnectionMongoDb = require("./dbconnection");
 
 ConnectionMongoDb();
 
-// TreeShema.find({})
-//     .limit(20)
-//     .then(resp => {
-//         resp.forEach(res1 => {
-//             console.log(res1.name);
-//         });
-//     });
+TreeShema.find({})
+    .limit(5)
+    .then(resp => {
+        resp.forEach(res1 => {
+            console.log(res1.geoloc);
+        });
+    });
 
 
 app.use(treesRoutes);
 app.use(userRoutes);
 app.use(logRoutes);
-app.get("/", (req, res) => {
+app.get("/*", (req, res) => {
     res.setHeader("Content-Type", "application/json");
 });
 app.get("/*", (req, res) => {
@@ -66,11 +66,12 @@ app.get("/*", (req, res) => {
 app.listen(APP_PORT, () =>
     console.log(`🚀 Server is listening on port ${APP_PORT}.`),
 );
-// addFirstLeaves();
-function repeatAdd(){
-setTimeout(addIdleLeaves, 900000);
-setTimeout(removeIdleLeaves, 3600000);
-}
-repeatAdd();
+addFirstLeaves();
+// removeIdleLeaves();
+// function repeatAdd(){
+// setTimeout(addIdleLeaves, 900000);
 // setTimeout(removeIdleLeaves, 3600000);
+// }
+// repeatAdd();
+
 
