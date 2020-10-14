@@ -65,7 +65,12 @@
     "react": "^16.13.1",
     "react-color": "^2.18.1",
     "react-color-hook": "^1.0.5",
-    "react-dom": "^16.13.1"
+    "react-dom": "^16.13.1",
+    "react-leaflet": "^2.7.0",
+    "react-leaflet-markercluster": "^2.0.0",
+    "react-router-dom": "^5.2.0",
+    "react-uuid": "^1.0.2",
+    "uuid": "^8.3.1"
   },
   "husky": {
     "hooks": {
