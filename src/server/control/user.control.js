@@ -11,16 +11,15 @@ import User from "../models/user.model";
 
 const addFirstLeaves = async (req, res) => {
     try {
-        const usersLeaves = await User.find({leaves: {$exists: true}});
-        // const numberOfUsers = await usersLeaves.count;
+        const usersLeaves = await User.find({});
         let userCount = 0;
         let leaveCount = 0;
         usersLeaves.forEach(user => {
-            userCount += 1;
+            userCount++;
             leaveCount += user.leaves;
         });
-        console.log(userCount);
-        console.log(leaveCount);
+        // console.log(userCount);
+        // console.log(leaveCount);
         return leaveCount / userCount;
     } catch (error) {
         return res.status(400).json({message: "Impossible"});
