@@ -37,7 +37,7 @@ const Header = ({
                         setSignInIsDisplayed(false);
                         setLogInIsDisplayed(true);
                     }}>
-                    {"login"}
+                    {"Login"}
                 </NavLink>
             </li>
         </>
