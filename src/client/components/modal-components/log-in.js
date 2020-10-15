@@ -13,6 +13,8 @@ const LogIn = ({
     setSignInIsDisplayed,
 }) => (
     <form
+        method={"POST"}
+        action={"/api/login"}
         // Change the CSS class following the state of the constant
         className={logInIsDisplayed ? "log-in--open" : "log-in--closed"}>
         <h2 className={"log-in__title"}>{"Log In to your account"}</h2>
